@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Reservation — Charl's Bistro</title>
+    <meta name="description" content="Reserve a table at Charls Bistro.">
+    <link rel="canonical" href="https://www.charlsbistro.com/reservation.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Reservation — Charls Bistro">
+    <meta property="og:description" content="Reserve a table at Charls Bistro.">
+    <link rel="icon" href="images/logo/logo.png" type="image/png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header" id="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo" aria-label="Charls Bistro Home">
+                <img src="images/logo/logo.png" alt="Charls Bistro" class="logo-image">
+            </a>
+            <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+            </button>
+        </div>
+    </header>
+    
+    <div class="menu-overlay" id="menuOverlay" aria-hidden="true">
+        <div class="menu-content">
+            <div class="menu-header">
+                <img src="images/logo/logo.png" alt="Charls Bistro" class="menu-logo-image">
+                <button class="menu-close" id="menuClose" aria-label="Close menu">×</button>
+            </div>
+            <nav class="menu-nav" aria-label="Main navigation">
+                <ul>
+                    <li style="--delay: 0.1s"><a href="index.html" class="menu-link">Events</a></li>
+                    <li style="--delay: 0.2s"><a href="about.html" class="menu-link">About</a></li>
+                    <li style="--delay: 0.3s"><a href="reservation.html" class="menu-link">Reservation</a></li>
+                    <li style="--delay: 0.4s"><a href="about.html#contact" class="menu-link">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="menu-footer" style="--delay: 0.5s">
+                <a href="https://www.instagram.com/charlsbistro/" target="_blank" rel="noopener noreferrer" class="menu-instagram">@charlsbistro</a>
+            </div>
+        </div>
+    </div>
+    
+    <main>
+        <section class="reservation-section">
+            <div class="container">
+                <div class="reservation-content">
+                    <h1 class="reservation-title">Reserve<br>Your Table</h1>
+                    
+                    <form id="reservationForm" class="reservation-form" novalidate>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required autocomplete="name" placeholder="Your full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required autocomplete="tel" placeholder="Your phone number">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required autocomplete="email" placeholder="Your email address">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="maleCount">Male</label>
+                                <select id="maleCount" name="maleCount" required>
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="femaleCount">Female</label>
+                                <select id="femaleCount" name="femaleCount" required>
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventSelect">Select Event</label>
+                            <select id="eventSelect" name="eventSelect" required>
+                                <option value="" disabled selected>Choose an event</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="note">Leave a Note</label>
+                            <textarea id="note" name="note" rows="4" placeholder="Any special requests, occasions, seating preferences..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-reserve">Request Reservation</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <div class="container footer-inner">
+            <img src="images/logo/logo.png" alt="Charls Bistro" class="footer-logo-image">
+            <div class="footer-links">
+                <a href="https://www.instagram.com/charlsbistro/" target="_blank" rel="noopener noreferrer">Instagram</a>
+                <a href="about.html#contact">Contact</a>
+            </div>
+            <span class="footer-copy">© 2026 Charl's Bistro</span>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>
