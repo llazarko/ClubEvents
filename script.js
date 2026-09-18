@@ -21,7 +21,7 @@ const events = [
     {
         id: "event-001",
         day: "FRIDAY",
-        date: "20 OCTOBER",
+        date: "12 SEPTEMBER",
         artist: "DJ Vicky",
         type: "LIVE SET",
         doorsOpen: "23:00",
@@ -143,13 +143,28 @@ const eventsCarousel = document.getElementById('eventsCarousel');
 const loadingScreen = document.getElementById('loadingScreen');
 
 /* ============================================
-   4. Loading Screen
+   4. Loading Screen — Robust
    ============================================ */
+function getLoaderShown() {
+    try {
+        return sessionStorage.getItem('charlsLoaderShown') === 'true';
+    } catch (e) {
+        return false;
+    }
+}
+
+function setLoaderShown() {
+    try {
+        sessionStorage.setItem('charlsLoaderShown', 'true');
+    } catch (e) {
+        // injoro
+    }
+}
+
 function initLoadingScreen() {
     if (!loadingScreen) return;
     
-    // Nëse është shfaqur tashmë në këtë sesion, hiqe direkt
-    if (sessionStorage.getItem('charlsLoaderShown') === 'true') {
+    if (getLoaderShown()) {
         loadingScreen.remove();
         document.body.classList.remove('loading');
         return;
@@ -163,7 +178,7 @@ function initLoadingScreen() {
         if (dismissed) return;
         dismissed = true;
         
-        sessionStorage.setItem('charlsLoaderShown', 'true');
+        setLoaderShown();
         loadingScreen.classList.add('zooming');
         
         setTimeout(() => {
@@ -175,17 +190,16 @@ function initLoadingScreen() {
         }, 600);
     };
     
-    // Preload të gjitha imazhet, pastaj largo loading screen-in
     preloadAllEventImages()
         .then(() => {
-            setTimeout(dismiss, 1500);
+            setTimeout(dismiss, 800);
         })
         .catch(() => {
             dismiss();
         });
     
-    // Failsafe
-    setTimeout(dismiss, 8000);
+    // Failsafe — maksimumi 3 sekonda
+    setTimeout(dismiss, 3000);
 }
 
 /* ============================================
@@ -399,7 +413,6 @@ function initReservationForm() {
     
     populateEventSelect();
     
-    // Pastro gabimet kur përdoruesi shkruan
     form.querySelectorAll('input, select, textarea').forEach(field => {
         field.addEventListener('input', () => clearFieldError(field));
         field.addEventListener('change', () => clearFieldError(field));
@@ -445,7 +458,6 @@ function initReservationForm() {
             return;
         }
         
-        // Loading state
         const originalText = submitBtn.textContent;
         submitBtn.disabled = true;
         submitBtn.classList.add('loading');
@@ -528,6 +540,18 @@ function initContactLinks() {
    10. Initialize
    ============================================ */
 function init() {
+    // Rrjet sigurie — largo loading screen-in pas 4 sekondash
+    setTimeout(() => {
+        const ls = document.getElementById('loadingScreen');
+        if (ls) {
+            ls.classList.add('hidden');
+            document.body.classList.remove('loading');
+            setTimeout(() => {
+                if (ls.parentNode) ls.remove();
+            }, 500);
+        }
+    }, 4000);
+    
     initLoadingScreen();
     initHeaderScroll();
     initBurgerMenu();
