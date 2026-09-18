@@ -21,7 +21,7 @@ const events = [
     {
         id: "event-001",
         day: "FRIDAY",
-        date: "12 SEPTEMBER",
+        date: "20 OCTOBER",
         artist: "DJ Vicky",
         type: "LIVE SET",
         doorsOpen: "23:00",
