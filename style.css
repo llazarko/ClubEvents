@@ -211,6 +211,12 @@ h6 {
     height: 100%;
     object-fit: contain;
     filter: brightness(1.2);
+    transform-origin: center center;
+    will-change: transform, opacity, filter;
+    transition:
+        transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.75s ease,
+        filter 0.75s ease;
 }
 
 @keyframes logoPulse {
@@ -222,6 +228,17 @@ h6 {
         transform: scale(1.05);
         opacity: 0.85;
     }
+}
+
+/* Zoom-out state for the loading logo */
+.loading-screen.zooming .loading-logo {
+    animation-play-state: paused;
+}
+
+.loading-screen.zooming .loading-logo-image {
+    transform: scale(2.6);
+    opacity: 0;
+    filter: brightness(1.8) blur(8px);
 }
 
 /* ============================================
@@ -1217,6 +1234,13 @@ h6 {
     .loading-logo {
         animation: none;
     }
+
+	.loading-screen.zooming .loading-	 logo-image {
+    transform: none;
+    filter: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+	 }
 }
 
 /* ============================================
@@ -1357,4 +1381,117 @@ h6 {
     .music-play-icon .icon-play {
         margin-left: 1px;
     }
+}
+
+
+/* ============================================
+   18. Inline Form Validation
+   ============================================ */
+.form-group.has-error label {
+    color: #e63946;
+}
+
+.form-group.has-error input,
+.form-group.has-error select,
+.form-group.has-error textarea {
+    border-bottom-color: #e63946;
+}
+
+.field-error {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: #e63946;
+    margin-top: 0.35rem;
+    animation: errorIn 0.3s ease;
+}
+
+@keyframes errorIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   19. Button Loading State
+   ============================================ */
+.btn-reserve.loading {
+    pointer-events: none;
+    opacity: 0.85;
+    gap: 0.75rem;
+}
+
+.spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(8, 8, 8, 0.3);
+    border-top-color: #080808;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   20. Add to Calendar Button
+   ============================================ */
+.btn-calendar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid rgba(199, 167, 108, 0.5);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.btn-calendar:hover {
+    background: rgba(199, 167, 108, 0.1);
+    border-color: var(--accent);
+    color: var(--accent-light);
+    transform: translateY(-2px);
+}
+
+.btn-calendar svg {
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .btn-calendar {
+        width: 100%;
+        padding: 1rem 1.5rem;
+    }
+}
+
+/* ============================================
+   21. Google Maps Embed
+   ============================================ */
+.map-embed {
+    width: 100%;
+    height: 380px;
+    border: 0;
+    border-radius: 10px;
+    margin-top: 2.5rem;
+    filter: invert(90%) hue-rotate(180deg) contrast(0.9) saturate(0.5);
+    opacity: 0.85;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+.map-embed:hover {
+    opacity: 1;
+    filter: invert(85%) hue-rotate(180deg) contrast(1) saturate(0.7);
+}
+
+@media (max-width: 768px) {
+    .map-embed { height: 280px; }
 }
