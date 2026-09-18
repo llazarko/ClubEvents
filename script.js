@@ -401,7 +401,7 @@ function initDragToScroll() {
 }
 
 /* ============================================
-   8. Reservation Form
+   8. Reservation Form — Inline validation
    ============================================ */
 function initReservationForm() {
     const reservationForm = document.getElementById('reservationForm');
@@ -409,42 +409,73 @@ function initReservationForm() {
     
     populateEventSelect();
     
+    // Pastro gabimet kur përdoruesi shkruan
+    reservationForm.querySelectorAll('input, select, textarea').forEach(field => {
+        field.addEventListener('input', () => clearFieldError(field));
+        field.addEventListener('change', () => clearFieldError(field));
+    });
+    
     reservationForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        const name = document.getElementById('name').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const maleCount = document.getElementById('maleCount').value;
-        const femaleCount = document.getElementById('femaleCount').value;
+        const name = document.getElementById('name');
+        const phone = document.getElementById('phone');
+        const email = document.getElementById('email');
+        const maleCount = document.getElementById('maleCount');
+        const femaleCount = document.getElementById('femaleCount');
         const eventSelect = document.getElementById('eventSelect');
-        const selectedEventId = eventSelect.value;
+        const note = document.getElementById('note');
+        
+        let isValid = true;
+        
+        if (!name.value.trim()) { 
+            setFieldError(name, 'Please enter your name'); isValid = false; 
+        }
+        
+        if (!phone.value.trim()) { 
+            setFieldError(phone, 'Please enter your phone number'); isValid = false; 
+        } else if (!/^[+\d][\d\s\-()]{6,}$/.test(phone.value.trim())) { 
+            setFieldError(phone, 'Please enter a valid phone number'); isValid = false; 
+        }
+        
+        if (!email.value.trim()) { 
+            setFieldError(email, 'Please enter your email'); isValid = false; 
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) { 
+            setFieldError(email, 'Please enter a valid email address'); isValid = false; 
+        }
+        
+        if (!maleCount.value) { 
+            setFieldError(maleCount, 'Please select number of male guests'); isValid = false; 
+        }
+        if (!femaleCount.value) { 
+            setFieldError(femaleCount, 'Please select number of female guests'); isValid = false; 
+        }
+        if (!eventSelect.value) { 
+            setFieldError(eventSelect, 'Please choose an event'); isValid = false; 
+        }
+        
+        if (!isValid) {
+            const firstError = reservationForm.querySelector('.form-group.has-error');
+            if (firstError) {
+                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            return;
+        }
+        
         const selectedEventText = eventSelect.options[eventSelect.selectedIndex]?.text || '';
-        const note = document.getElementById('note').value.trim();
-        
-        if (!name || !phone || !email || !maleCount || !femaleCount || !selectedEventId) {
-            alert('Please fill in all required fields.');
-            return;
-        }
-        
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(email)) {
-            alert('Please enter a valid email address.');
-            return;
-        }
         
         const message = `
 Hello Charl's Bistro,
 
 I would like to request a reservation.
 
-Name: ${name}
-Phone: ${phone}
-Email: ${email}
-Male Guests: ${maleCount}
-Female Guests: ${femaleCount}
+Name: ${name.value.trim()}
+Phone: ${phone.value.trim()}
+Email: ${email.value.trim()}
+Male Guests: ${maleCount.value}
+Female Guests: ${femaleCount.value}
 Event: ${selectedEventText}
-Note: ${note || 'N/A'}
+Note: ${note.value.trim() || 'N/A'}
         `.trim();
         
         const encodedMessage = encodeURIComponent(message);
@@ -452,6 +483,27 @@ Note: ${note || 'N/A'}
         
         window.open(whatsappUrl, '_blank');
     });
+}
+
+function setFieldError(field, message) {
+    const group = field.closest('.form-group');
+    if (!group) return;
+    group.classList.add('has-error');
+    let errorEl = group.querySelector('.field-error');
+    if (!errorEl) {
+        errorEl = document.createElement('span');
+        errorEl.className = 'field-error';
+        group.appendChild(errorEl);
+    }
+    errorEl.textContent = message;
+}
+
+function clearFieldError(field) {
+    const group = field.closest('.form-group');
+    if (!group) return;
+    group.classList.remove('has-error');
+    const errorEl = group.querySelector('.field-error');
+    if (errorEl) errorEl.remove();
 }
 
 function populateEventSelect() {
@@ -467,6 +519,8 @@ function populateEventSelect() {
     
     eventSelect.innerHTML = optionsHTML;
 }
+        
+
 
 /* ============================================
    9. Contact Links
